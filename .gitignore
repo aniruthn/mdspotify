@@ -1,2 +1,15 @@
+*/node_modules/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+*/dist/
+
+# mobile
+mobile/.expo/
+mobile/web-build/
+
 # mac
-.DS_Store
+*.DS_Store
