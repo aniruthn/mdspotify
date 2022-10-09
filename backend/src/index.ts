@@ -1,6 +1,9 @@
 // ts prefers imports over require
 import express from "express";
 import AuthRouter from "./services/auth"
+import PlaybackRouter from "./services/playback"
+import SearchRouter from "./services/search"
+import PlaylistsRouter from "./services/playlists"
 import Database from "better-sqlite3"
 const app = express();
 const port = process.env.PORT || 8080;
@@ -11,11 +14,10 @@ const pragmaStatement = db.prepare("SELECT name FROM (SELECT * FROM sqlite_schem
 const value = pragmaStatement.get() // will be undefined if not present
 
 if (!value?.name || value.name !== "UserInfo") {
-  const statement = db.prepare('CREATE TABLE IF NOT EXISTS UserInfo (username TEXT NOT NULL PRIMARY KEY, password TEXT NOT NULL);')
-  statement.run()
+  db.prepare('CREATE TABLE IF NOT EXISTS UserInfo (username TEXT NOT NULL PRIMARY KEY, password TEXT NOT NULL);').run()
 
-  const statement2 = db.prepare('INSERT INTO UserInfo(username, password) VALUES(?, ?);')
-  statement2.run("mom", "dad")
+  const insertIntoUserInfo = db.prepare('INSERT INTO UserInfo(username, password) VALUES(?, ?);')
+  insertIntoUserInfo.run("mom", "dad")
 }
 
 // /route/:myparam accessed by req.params.myparam
@@ -27,6 +29,9 @@ app.get("/", (_req, res) => {
 });
 
 app.use('/auth', AuthRouter)
+app.use('/playback', PlaybackRouter)
+app.use('/search', SearchRouter)
+app.use('/playlists', PlaylistsRouter)
 
 // start the Express server
 app.listen(port, () => {

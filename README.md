@@ -27,3 +27,9 @@ yarn start
 ```
 
 Ideally, this project would contain one set of shared packages. However, since `yarn create expo-app` was used to setup the mobile frontend, it's far easier to just create separate folders.
+
+Both the frontend and backend have live reloading and TypeScript support; the frontend uses Expo and the backend uses nodemon and ts-node.
+
+## Workflows
+
+Check out some [sample workflows](./systems-design-queries.md) to see how the backend architecture was designed.
