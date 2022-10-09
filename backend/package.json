@@ -11,6 +11,7 @@
   "author": "aniruthn",
   "license": "MIT",
   "dependencies": {
+    "@types/better-sqlite3": "^7.6.1",
     "@types/express": "^4.17.14",
     "@types/node": "^18.8.3",
     "better-sqlite3": "^7.6.2",

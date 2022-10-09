@@ -11,5 +11,8 @@
 mobile/.expo/
 mobile/web-build/
 
+# databases
+*.db
+
 # mac
 *.DS_Store

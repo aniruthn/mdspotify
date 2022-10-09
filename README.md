@@ -8,7 +8,7 @@ This project uses:
 
 - React Native (managed by Expo)
 - Node/Express
-- Sqlite3
+- SQL (SQLite3)
 - Typescript
 
 ## Local Setup
