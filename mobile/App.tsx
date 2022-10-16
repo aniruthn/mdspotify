@@ -1,9 +1,13 @@
-import { Text, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { ThemeProvider } from "react-native-magnus";
+import EntryHandler from "./screens/EntryHandler";
 
 export default function App() {
   return (
-    <View>
-      <Text>MDSpotify</Text>
-    </View>
+    <NavigationContainer>
+      <ThemeProvider>
+        <EntryHandler />
+      </ThemeProvider>
+    </NavigationContainer>
   );
 }
