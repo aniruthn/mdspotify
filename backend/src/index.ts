@@ -19,7 +19,7 @@ seedDB(db)
 
 app.get("/", (_req, res) => {
   res.status(200)
-  res.send("Hello world!");
+  res.send({msg: "Hello world!"});
 });
 
 app.use('/auth', AuthRouter)

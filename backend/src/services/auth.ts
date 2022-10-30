@@ -6,10 +6,14 @@ import UserInfoRow from "../models/UserInfoRow"
 const AuthRouter = Router()
 
 AuthRouter.get('/signin', (req, res) => {
-    const { username, password } = req.query
-    const hashedPassword = cyrb53(password.toString()).toString(10)
+    const { username, password } = req.query as any as UserInfoRow
+    if (!username || !password) {
+        res.statusCode = 400
+        res.send({})
+    }
+    const hashedPassword = cyrb53(password)
     const statement = db.prepare(`SELECT * FROM UserInfo WHERE username = ? AND password = ?;`)
-    const result = statement.get(username.toString(), hashedPassword)
+    const result = statement.get(username, hashedPassword)
     if (result) {
         res.statusCode = 200
         res.send(result)
@@ -25,9 +29,31 @@ AuthRouter.put('/signout', (req, res) => {
     // can a user sign in from multiple devices at once?
 })
 
-AuthRouter.put('/createUser', (req, res) => {
+AuthRouter.post('/createUser', (req, res) => {
     const userInfo = req.query as any as UserInfoRow
-    res.send({})
+    const { username, password } = userInfo
+    if (!username || !password) {
+        res.statusCode = 400
+        res.send({})
+    }
+    const hashedPassword = cyrb53(password)
+    const statement = db.prepare('INSERT INTO UserInfo VALUES(?, ?);')
+    const result = statement.run(username, hashedPassword)
+    if (result) {
+        res.statusCode = 200
+        res.send(result)
+    } else {
+        res.statusCode = 401
+        res.send({})
+    }
+})
+
+// for debugging ease
+AuthRouter.get('/allUsers', (_, res) => {
+    const statement = db.prepare('SELECT * FROM UserInfo;')
+    const result = statement.all()
+    res.statusCode = 200
+    res.send(result)
 })
 
 export default AuthRouter
