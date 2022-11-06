@@ -13,6 +13,9 @@ mobile/web-build/
 
 # databases
 *.db
+db/files/*.mp3
+db/files.txt
+db/uuid.txt
 
 # mac
 *.DS_Store

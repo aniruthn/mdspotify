@@ -1,0 +1,4 @@
+# comments in file indicated with #
+# format: audioFile, title, artist, features, album, cover art
+
+# whitespace doesn't matter, both in lines and it is automatically trimmed in each part of the format

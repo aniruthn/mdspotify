@@ -1,4 +1,3 @@
-// ts prefers imports over require
 import express from "express";
 import AuthRouter from "./services/auth"
 import PlaybackRouter from "./services/playback"
@@ -6,11 +5,16 @@ import SearchRouter from "./services/search"
 import PlaylistsRouter from "./services/playlists"
 import Database from "better-sqlite3"
 import { seedDB } from "./utils";
+import { v5 } from 'uuid';
 
 const app = express();
 const port = process.env.PORT || 8080;
 
 export const db = new Database("./../db/database.db")
+
+// custom namespace, used to make a re-usable uuid generator function
+const namespaceForUuid = '8bd9df1d-de06-4357-8fb6-b79d2255e5d0'
+export const uuidGenerator = (input: string) => v5(input, namespaceForUuid)
 
 seedDB(db)
 

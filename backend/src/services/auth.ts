@@ -10,9 +10,10 @@ AuthRouter.get('/signin', (req, res) => {
     if (!username || !password) {
         res.statusCode = 400
         res.send({})
+        return
     }
     const hashedPassword = cyrb53(password)
-    const statement = db.prepare(`SELECT * FROM UserInfo WHERE username = ? AND password = ?;`)
+    const statement = db.prepare('SELECT * FROM UserInfo WHERE username = ? AND password = ?;')
     const result = statement.get(username, hashedPassword)
     if (result) {
         res.statusCode = 200
@@ -35,6 +36,7 @@ AuthRouter.post('/createUser', (req, res) => {
     if (!username || !password) {
         res.statusCode = 400
         res.send({})
+        return
     }
     const hashedPassword = cyrb53(password)
     const statement = db.prepare('INSERT INTO UserInfo VALUES(?, ?);')
