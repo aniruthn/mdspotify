@@ -6,10 +6,11 @@ This project was built during the MDB Training Program, Fall 2022. It's inspired
 
 This project uses:
 
-- React Native (managed by Expo)
-- Node/Express
-- SQL (SQLite3)
-- Typescript
+- React Native (managed by Expo) for the mobile frontend
+- Node/Express for the backend server
+- Redux (Toolkit) for the frontend state management
+- SQL (SQLite3) for the database
+- TypeScript for the language throughout
 
 ## Local Setup
 
