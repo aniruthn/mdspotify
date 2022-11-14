@@ -4,4 +4,5 @@ export default interface PlaylistRow {
     songs: string;
     coverArt: string;
     description: string;
+    user: string;
 }

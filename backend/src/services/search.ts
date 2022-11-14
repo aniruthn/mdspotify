@@ -1,26 +1,26 @@
-// use the WHERE column LIKE pattern to search
 import Router from 'express'
 import SongRow from '../models/SongRow'
+import PlaylistRow from '../models/PlaylistRow'
 import { db } from "./../index"
 
 const SearchRouter = Router()
 
-// search: search by a few things
-// songs: search by: title, artist, features, album
-// playlists: search by: name, songs - coming later
-// albums (no direct database, but we can groupby album on songs) - ignore for now
+const searchThroughTable = (searchTerm: string, tableName: string, columnsToSearchBy: string[]) => {
+    const columnsToSearchByProcessed = columnsToSearchBy.map((column) => `${column} LIKE '%${searchTerm}%'`).join(" OR ")
+    return db.prepare(`SELECT * FROM ${tableName} WHERE ${columnsToSearchByProcessed};`).all()
+}
+
+// todo: add searching for albums directly
+SearchRouter.get('/', (req, res) => {
+    const { searchTerm } = req.query as { searchTerm: string }
+    const songSearchResults: SongRow[] = searchThroughTable(searchTerm, "Songs", ["title", "artist", "features", "album"])
+    const playlistSearchResults: PlaylistRow[] = searchThroughTable(searchTerm, "Playlists", ["name", "description"])
+    res.send({ songSearchResults, playlistSearchResults })
+})
 
 SearchRouter.get('/song', (req, res) => {
-    const { searchTerm } = req.query
-    const columnsToSearchBy = ["title", "artist", "features", "album"]
-    const columnsToSearchByProcessed = columnsToSearchBy.map((column) => `${column} LIKE '%${searchTerm}%'`).join(" OR ")
-    const songSearchResults: SongRow[] = db.prepare(`SELECT * FROM Songs WHERE ${columnsToSearchByProcessed};`).all()
-    console.log(songSearchResults);
-    if (songSearchResults.length === 0) {
-        res.statusCode = 404
-    } else {
-        res.statusCode = 200
-    }
+    const { searchTerm } = req.query as { searchTerm: string }
+    const songSearchResults: SongRow[] = searchThroughTable(searchTerm, "Songs", ["title", "artist", "features", "album"])
     res.send({ songSearchResults })
 })
 

@@ -1,6 +1,7 @@
 import { Database } from "better-sqlite3";
 import fs from "fs";
 import { uuidGenerator } from "./index";
+import PlaylistRow from "./models/PlaylistRow";
 import UserInfoRow from "./models/UserInfoRow";
 
 const usersInDB: UserInfoRow[] = [
@@ -11,6 +12,16 @@ const usersInDB: UserInfoRow[] = [
   {
     username: "user1",
     password: "password1"
+  }
+]
+
+const playlistsInDB: Omit<PlaylistRow, 'uuid'>[] = [
+  {
+    name: "Playlist 1",
+    songs: "",
+    coverArt: "N/A",
+    description: "First sample playlist",
+    user: "user1"
   }
 ]
 
@@ -51,7 +62,14 @@ export const seedDB = (db: Database) => {
     fs.writeFileSync("./../db/uuid.txt", writeFile)
   }
   if (!tables.includes("Playlists")) {
-    db.prepare('CREATE TABLE IF NOT EXISTS Playlists (uuid TEXT NOT NULL PRIMARY KEY, songs TEXT NOT NULL, coverArt TEXT NOT NULL, description TEXT NOT NULL);').run()
+    db.prepare('CREATE TABLE IF NOT EXISTS Playlists (uuid TEXT NOT NULL PRIMARY KEY, name TEXT NOT NUll, songs TEXT NOT NULL, coverArt TEXT NOT NULL, description TEXT NOT NULL, user TEXT NOT NULL);').run()
+
+    const insertIntoPlaylists = db.prepare('INSERT INTO Playlists(uuid, name, songs, coverArt, description, user) VALUES(?, ?, ?, ?, ?, ?);')
+    playlistsInDB.forEach((playlist) => {
+      const { name, songs, coverArt, description, user } = playlist
+      const uuid = uuidGenerator(`${name},${user}`)
+      insertIntoPlaylists.run(uuid, name, songs, coverArt, description, user)
+    })
   }
 }
 
