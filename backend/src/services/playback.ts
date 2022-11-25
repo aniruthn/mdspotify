@@ -1,6 +1,6 @@
 import Router from 'express'
 import { db } from "./../index"
-import SongRow from "../models/SongRow"
+import SongRow from "../../../shared/models/SongRow"
 
 const PlaybackRouter = Router()
 

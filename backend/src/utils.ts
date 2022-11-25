@@ -1,8 +1,8 @@
 import { Database } from "better-sqlite3";
 import fs from "fs";
 import { uuidGenerator } from "./index";
-import PlaylistRow from "./models/PlaylistRow";
-import UserInfoRow from "./models/UserInfoRow";
+import PlaylistRow from "./../../shared/models/PlaylistRow";
+import UserInfoRow from "./../../shared/models/UserInfoRow";
 
 const usersInDB: UserInfoRow[] = [
   {

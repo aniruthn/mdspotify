@@ -1,6 +1,6 @@
 import Router from 'express'
-import SongRow from '../models/SongRow'
-import PlaylistRow from '../models/PlaylistRow'
+import SongRow from '../../../shared/models/SongRow'
+import PlaylistRow from '../../../shared/models/PlaylistRow'
 import { db } from "./../index"
 
 const SearchRouter = Router()

@@ -1,20 +1,13 @@
 import { useState } from "react";
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import { FlatList, TouchableOpacity, View } from "react-native";
 import { Input, Icon, Text, Button } from "react-native-magnus";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { BaseURL } from "../../constants";
 import { addToQueue } from "../../redux/songQueue/songQueueSlice";
-import { RootState } from "../../redux/store";
 import { processSongFeatures } from "../../utils";
+import SongRow from "../../../shared/models/SongRow";
 
-type SearchResult = {
-  uuid: string;
-  title: string;
-  audioFile: string;
-  artist: string;
-  features: string;
-  album: string;
-  coverArt: string;
-};
+type SearchResult = SongRow;
 
 type SearchResults = SearchResult[];
 
@@ -23,10 +16,9 @@ const SearchScreen = () => {
   const [searchResults, setSearchResults] = useState<
     SearchResults | undefined
   >();
-  const queue = useSelector((state: RootState) => state.songQueue.queue);
   const dispatch = useDispatch();
   const searchQueryHandler = async () => {
-    const url = new URL("http://localhost:8080/search/");
+    const url = new URL(`${BaseURL}/search/`);
     url.searchParams.append("searchTerm", searchInputValue);
     try {
       const response = await fetch(url.toString());
@@ -45,6 +37,18 @@ const SearchScreen = () => {
       console.log(error.toString());
     }
   };
+  const renderSearchResult = ({ item }: { item: SearchResult }) => {
+    return (
+      <View key={item.uuid} style={{ marginVertical: 20 }}>
+        <Text>{item.title}</Text>
+        <Text>
+          {item.artist} feat. {item.features}
+        </Text>
+        <Text>{item.album}</Text>
+        <Button onPress={() => dispatch(addToQueue(item))}>Add to Queue</Button>
+      </View>
+    );
+  };
   const DisplaySearchResults = () => {
     if (!searchResults) {
       return <></>;
@@ -53,29 +57,28 @@ const SearchScreen = () => {
       return <Text>No results found!</Text>;
     }
     return (
-      <ScrollView>
-        {searchResults.map((searchResult) => {
-          return (
-            <View key={searchResult.uuid} style={{ marginVertical: 20 }}>
-              <Text>{searchResult.title}</Text>
-              <Text>
-                {searchResult.artist} feat. {searchResult.features}
-              </Text>
-              <Text>{searchResult.album}</Text>
-              <Button onPress={() => dispatch(addToQueue(searchResult))}>
-                Add to Queue
-              </Button>
-            </View>
-          );
-        })}
-      </ScrollView>
+      <FlatList
+        data={searchResults}
+        renderItem={renderSearchResult}
+        keyExtractor={(item) => item.uuid}
+      />
     );
   };
   const SearchButton = () => (
     <TouchableOpacity onPress={searchQueryHandler}>
       <Icon name="search" color="gray100" fontFamily="Feather" />
-      {/* to add: clear button, useRef on the input */}
     </TouchableOpacity>
+  );
+  const ClearButton = () => (
+    <TouchableOpacity onPress={() => setSearchInputValue("")}>
+      <Icon name="x" color="gray100" fontFamily="Feather" />
+    </TouchableOpacity>
+  );
+  const SuffixButtons = () => (
+    <View style={{ display: "flex", flexDirection: "row" }}>
+      {searchInputValue && <ClearButton />}
+      <SearchButton />
+    </View>
   );
   return (
     <>
@@ -88,7 +91,7 @@ const SearchScreen = () => {
         onChangeText={setSearchInputValue}
         onSubmitEditing={searchQueryHandler}
         autoCorrect={false}
-        suffix={<SearchButton />}
+        suffix={<SuffixButtons />}
       />
       <DisplaySearchResults />
     </>

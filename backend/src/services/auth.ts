@@ -1,7 +1,7 @@
 import Router from 'express'
 import { db } from "./../index"
 import { cyrb53 } from '../utils'
-import UserInfoRow from "../models/UserInfoRow"
+import UserInfoRow from "../../../shared/models/UserInfoRow"
 
 const AuthRouter = Router()
 
