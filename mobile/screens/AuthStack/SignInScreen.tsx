@@ -3,7 +3,7 @@ import { SafeAreaView } from "react-native";
 import { Button, Input } from "react-native-magnus";
 import { useDispatch } from "react-redux";
 import { BaseURL } from "../../constants";
-import { logIn, setUserData } from "../../redux/songQueue/userSlice";
+import { logIn, setUserData } from "../../redux/user/userSlice";
 
 const SignInScreen = () => {
   const dispatch = useDispatch();

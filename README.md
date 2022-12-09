@@ -34,3 +34,12 @@ Both the frontend and backend have live reloading and TypeScript support; the fr
 ## Workflows
 
 Check out some [sample workflows](./systems-design-queries.md) to see how the backend architecture was designed.
+
+## Ideas for Functionality
+
+The following are a subset of ideas pitched by newbies for features to potentially add to MDSpotify:
+
+- DJ interface
+- Filter button by different genres in a playlist
+- Group playlists with people voting on songs to adjust the list
+- Toggle for instrumental versions of music for karaoke

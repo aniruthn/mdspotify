@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import songQueueReducer from "../redux/songQueue/songQueueSlice"
-import userReducer from "../redux/songQueue/userSlice"
+import userReducer from "./user/userSlice"
 
 export const store = configureStore({
   reducer: {

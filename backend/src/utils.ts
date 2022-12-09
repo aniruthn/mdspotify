@@ -34,6 +34,7 @@ export const seedDB = (db: Database) => {
   const tables = pragmaStatement.all().map((val) => val.name)
 
   if (!tables.includes("UserInfo")) {
+    console.log('initializing UserInfo table')
     db.prepare('CREATE TABLE IF NOT EXISTS UserInfo (username TEXT NOT NULL PRIMARY KEY, password TEXT NOT NULL);').run()
 
     const insertIntoUserInfo = db.prepare('INSERT INTO UserInfo(username, password) VALUES(?, ?);')
@@ -44,6 +45,7 @@ export const seedDB = (db: Database) => {
     })
   }
   if (!tables.includes("Songs")) {
+    console.log('initializing Songs table')
     db.prepare('CREATE TABLE IF NOT EXISTS Songs (uuid TEXT NOT NULL PRIMARY KEY, title TEXT NOT NULL, audioFile TEXT NOT NULL, artist TEXT NOT NULL, features TEXT NOT NULL, album TEXT NOT NULL, coverArt TEXT NOT NULL);').run()
     const filesTxt = fs.readFileSync("./../db/files.txt", "utf-8")
       .split("\n")
@@ -62,6 +64,7 @@ export const seedDB = (db: Database) => {
     fs.writeFileSync("./../db/uuid.txt", writeFile)
   }
   if (!tables.includes("Playlists")) {
+    console.log('initializing Playlists table')
     db.prepare('CREATE TABLE IF NOT EXISTS Playlists (uuid TEXT NOT NULL PRIMARY KEY, name TEXT NOT NUll, songs TEXT NOT NULL, coverArt TEXT NOT NULL, description TEXT NOT NULL, user TEXT NOT NULL);').run()
 
     const insertIntoPlaylists = db.prepare('INSERT INTO Playlists(uuid, name, songs, coverArt, description, user) VALUES(?, ?, ?, ?, ?, ?);')

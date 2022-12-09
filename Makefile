@@ -1,12 +1,16 @@
 # utilities to speed up common commands using Make
 
-frontend-start:
+mobile-start:
 	cd mobile; \
 	npx expo start
 
-frontend-start--ios:
+mobile-start--ios:
 	cd mobile; \
 	npx expo start --ios
+
+web-start:
+	cd web; \
+	yarn start
 
 backend-start:
 	cd backend; \
@@ -16,4 +20,4 @@ remove-db:
 	rm db/database.db
 
 default:
-	@echo Choose a valid target: frontend-start, frontend-start--ios, backend-start, or remove-db
+	@echo Choose a valid target: mobile-start, mobile-start--ios, web-start, backend-start, or remove-db

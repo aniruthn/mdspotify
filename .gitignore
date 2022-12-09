@@ -11,6 +11,8 @@
 mobile/.expo/
 mobile/web-build/
 
+# web
+
 # databases
 *.db
 db/files/*.mp3
