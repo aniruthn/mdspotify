@@ -1,11 +1,15 @@
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useState } from "react";
 import { SafeAreaView } from "react-native";
-import { Button, Input } from "react-native-magnus";
+import { Button, Input, Text } from "react-native-magnus";
 import { useDispatch } from "react-redux";
 import { BaseURL } from "../../constants";
 import { logIn, setUserData } from "../../redux/user/userSlice";
+import { AuthStackParamList } from "./AuthStackNavigator";
 
-const SignInScreen = () => {
+type Props = NativeStackScreenProps<AuthStackParamList, "SignInScreen">;
+
+const SignInScreen = ({ navigation }: Props) => {
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -29,6 +33,7 @@ const SignInScreen = () => {
   };
   return (
     <SafeAreaView>
+      <Text>MDSpotify</Text>
       <Input
         placeholder="username"
         p={10}
@@ -51,6 +56,9 @@ const SignInScreen = () => {
         autoCorrect={false}
       />
       <Button onPress={signInHandler}>Sign In</Button>
+      <Button onPress={() => navigation.navigate("SignUpScreen")}>
+        Sign Up
+      </Button>
     </SafeAreaView>
   );
 };
