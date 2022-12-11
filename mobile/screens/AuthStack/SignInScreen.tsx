@@ -26,9 +26,12 @@ const SignInScreen = ({ navigation }: Props) => {
       if (Object.keys(data).length > 0) {
         dispatch(setUserData(data));
         dispatch(logIn());
+        console.log("Signed Up");
+      } else {
+        console.log("Sign Up Failed");
       }
     } catch (error: any) {
-      console.log(error.toString());
+      console.error(error.toString());
     }
   };
   return (

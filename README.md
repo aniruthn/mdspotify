@@ -43,3 +43,19 @@ The following are a subset of ideas pitched by newbies for features to potential
 - Filter button by different genres in a playlist
 - Group playlists with people voting on songs to adjust the list
 - Toggle for instrumental versions of music for karaoke
+
+## Miscellaneous Notes
+
+### Security
+
+Note that the authentication system here can be spoofed. Here's how it would happen:
+
+- To initially sign in, the outgoing network request has to be intercepted. An object with a non-zero number of keys has to be returned. Tricky, but possible.
+- All subsequent requests will succeed, since the local state of the application maintains that the user signs in.
+
+Here's the fix:
+
+- All requests should check that the user is authenticated.
+- This needs to happen on the backend, and should sign out the user _if_ there is not a valid user.
+
+I might fix this soon - in which case the code would be updated.
